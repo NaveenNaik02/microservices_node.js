@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": "catalog_service"
+    },
+    {
+      "path": "order_service"
+    },
+    {
+      "path": "db"
+    },
+    {
+      "name": "kafka_elastic_search_ms",
+      "path": "."
+    }
+  ]
+}

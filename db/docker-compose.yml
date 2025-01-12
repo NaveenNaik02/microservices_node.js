@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  catalog_db_server:
+    image: "postgres:14-alpine"
+    ports:
+      - "5432:5432"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: catalog_db
+      POSTGRES_PASSWORD: catalog_db_password
+      POSTGRES_DB: catalog_service
+    volumes:
+      - ./db-data/catalog_db_server/:/var/lib/postgresql/data

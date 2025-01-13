@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeArgs": ["--loader", "ts-node/esm"],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "args": ["${workspaceFolder}/src/server.ts"],
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Process",
+      "processId": "${command:PickProcess}",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}

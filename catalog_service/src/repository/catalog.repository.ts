@@ -17,6 +17,7 @@ export class CatalogRepository implements ICatalogRepository {
   }
 
   async update(data: Product): Promise<Product> {
+    console.log(data);
     return this._prisma.product.update({
       where: { id: data.id },
       data,

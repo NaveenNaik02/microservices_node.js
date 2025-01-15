@@ -26,7 +26,7 @@ export const createProductHandler: RequestHandler = async (
     res.status(201).json(data);
   } catch (error) {
     const err = error as Error;
-    res.status(STATUS_CODES.INTERNAL_ERROR).json({ error: err.message });
+    res.status(STATUS_CODES.INTERNAL_ERROR).json(err.message);
   }
 };
 
@@ -36,12 +36,14 @@ export const editProductHandler: RequestHandler = async (req, res, _next) => {
       UpdateProductRequest,
       req.body
     );
+
     if (errors) {
       res.status(STATUS_CODES.BAD_REQUEST).json(errors);
       return;
     }
 
     const id = parseInt(req.params.id);
+    // console.log({ id, input });
     if (!id) {
       res
         .status(STATUS_CODES.BAD_REQUEST)
@@ -53,7 +55,7 @@ export const editProductHandler: RequestHandler = async (req, res, _next) => {
     res.status(STATUS_CODES.OK).json(data);
   } catch (error) {
     const err = error as Error;
-    res.status(STATUS_CODES.INTERNAL_ERROR).json({ error: err.message });
+    res.status(STATUS_CODES.INTERNAL_ERROR).json(err.message);
   }
 };
 
@@ -65,7 +67,7 @@ export const getProductsHandler: RequestHandler = async (req, res, _next) => {
     res.status(STATUS_CODES.OK).json(data);
   } catch (error) {
     const err = error as Error;
-    res.status(STATUS_CODES.INTERNAL_ERROR).json({ error: err.message });
+    res.status(STATUS_CODES.INTERNAL_ERROR).json(err.message);
   }
 };
 

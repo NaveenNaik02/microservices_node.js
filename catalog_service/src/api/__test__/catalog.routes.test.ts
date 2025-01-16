@@ -2,7 +2,7 @@ import express from "express";
 import request from "supertest";
 import { faker } from "@faker-js/faker";
 import catalogRoutes from "../catalog.routes";
-import { ProductFactory } from "../../utils/fixtures";
+import { ProductFactory } from "../../utils";
 import { catalogService } from "../../requestHandler";
 
 const app = express();

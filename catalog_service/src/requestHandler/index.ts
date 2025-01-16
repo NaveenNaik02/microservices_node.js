@@ -1,11 +1,13 @@
 import { RequestHandler } from "express";
 import { RequestValidator } from "../utils/requestValidator";
 import { CreateProductRequest, UpdateProductRequest } from "../dto/product.dto";
-import { CatalogService } from "../services/catalog.service";
-import { CatalogRepository } from "../repository/catalog.repository";
-import { STATUS_CODES } from "../utils";
+import { STATUS_CODES, TYPES } from "../utils";
+import { container } from "../utils/container";
+import { ICatalogService } from "../interface";
 
-export const catalogService = new CatalogService(new CatalogRepository());
+export const catalogService = container.get<ICatalogService>(
+  TYPES.CatalogService
+);
 
 export const createProductHandler: RequestHandler = async (
   req,
@@ -43,7 +45,6 @@ export const editProductHandler: RequestHandler = async (req, res, _next) => {
     }
 
     const id = parseInt(req.params.id);
-    // console.log({ id, input });
     if (!id) {
       res
         .status(STATUS_CODES.BAD_REQUEST)

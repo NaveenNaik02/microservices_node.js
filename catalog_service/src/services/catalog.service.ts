@@ -1,9 +1,12 @@
+import { inject, injectable } from "inversify";
 import { ICatalogRepository } from "../interface/catalogRepository.interface";
+import { TYPES } from "../utils";
 
+@injectable()
 export class CatalogService {
   private _repository: ICatalogRepository;
 
-  constructor(repository: ICatalogRepository) {
+  constructor(@inject(TYPES.ProductRepository) repository: ICatalogRepository) {
     this._repository = repository;
   }
 

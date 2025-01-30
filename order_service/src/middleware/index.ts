@@ -16,7 +16,7 @@ export const RequestAuthorizer = async (
     // }
 
     const userData = "john";
-    req.user = userData;
+    req.id = 2;
     next();
   } catch (error) {
     logger.error(error);

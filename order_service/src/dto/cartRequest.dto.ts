@@ -2,7 +2,7 @@ import { IsNumber } from "class-validator";
 
 export class CreateCart {
   @IsNumber()
-  id: number;
+  productId: number;
 
   @IsNumber()
   qty: number;

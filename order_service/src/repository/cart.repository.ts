@@ -1,11 +1,19 @@
+import { eq } from "drizzle-orm";
 import { DB } from "../db/db.connection";
 import { CartLineItem, cartLineItems, carts } from "../db/schema";
 import { ICartRepository } from "../interfaces";
 
+export interface CreateCartInput {
+  itemName: string;
+  productId: number;
+  price: string;
+  qty: number;
+  variant: string | null;
+}
 export class CartRepository implements ICartRepository {
   async createCart(
     customerId: number,
-    { itemName, price, productId, qty, variant }: CartLineItem
+    { itemName, price, productId, qty, variant }: CreateCartInput
   ) {
     const result = await DB.insert(carts)
       .values({ customerId })
@@ -17,15 +25,45 @@ export class CartRepository implements ICartRepository {
     const [{ id }] = result;
 
     if (id > 0) {
-      await DB.insert(cartLineItems).values({
-        cartId: id,
-        productId,
-        itemName,
-        price,
-        qty,
-        variant,
-      });
+      const [lineItem] = await DB.insert(cartLineItems)
+        .values({
+          cartId: id,
+          productId,
+          itemName,
+          price,
+          qty,
+          variant,
+        })
+        .returning();
+      return lineItem;
     }
-    return id;
+    return null;
+  }
+
+  async findCartByProductId(
+    customerId: number,
+    productId: number
+  ): Promise<CartLineItem> {
+    const cart = await DB.query.carts.findFirst({
+      where: (carts, { eq }) => eq(carts.customerId, customerId),
+      with: {
+        lineItems: true,
+      },
+    });
+
+    const lineItem = cart?.lineItems.find(
+      (item) => item.productId === productId
+    );
+    return lineItem as CartLineItem;
+  }
+
+  async updateCart(lineItemId: number, qty: number): Promise<CartLineItem> {
+    const [cartLineItem] = await DB.update(cartLineItems)
+      .set({
+        qty: qty,
+      })
+      .where(eq(cartLineItems.id, lineItemId))
+      .returning();
+    return cartLineItem;
   }
 }

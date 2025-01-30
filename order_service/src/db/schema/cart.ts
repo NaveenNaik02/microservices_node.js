@@ -1,4 +1,4 @@
-import { InferSelectModel } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import {
   integer,
   numeric,
@@ -30,6 +30,17 @@ export const cartLineItems = pgTable("cart_line_items", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
+
+export const cartRelations = relations(carts, ({ many }) => ({
+  lineItems: many(cartLineItems),
+}));
+
+export const lineItemsRelations = relations(cartLineItems, ({ one }) => ({
+  cart: one(carts, {
+    fields: [cartLineItems.cartId],
+    references: [carts.id],
+  }),
+}));
 
 export type CartLineItem = InferSelectModel<typeof cartLineItems>;
 export type Cart = InferSelectModel<typeof carts>;

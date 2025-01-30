@@ -2,9 +2,10 @@ import { NextFunction, Request, Response, Router } from "express";
 import { RequestValidator } from "../utils/requestValidator";
 import { CartService } from "../services/cart.service";
 import { CreateCart } from "../dto";
-import { STATUS_CODES } from "../utils";
+import { logger, STATUS_CODES } from "../utils";
 import { CartRepository } from "../repository/cart.repository";
 import { AuthenticatedRequest, RequestAuthorizer } from "../middleware";
+import { GetProductDetails } from "../utils/broker";
 
 const router = Router();
 
@@ -25,7 +26,24 @@ router.post(
       const response = await service.createCart({
         ...input,
         customerId: user,
+        id: req.id,
       });
-    } catch (error) {}
+
+      res.status(STATUS_CODES.CREATED).json(response);
+    } catch (error) {
+      logger.error(error);
+      _next(error);
+    }
   }
 );
+
+router.get("/products", async (req, res, _next) => {
+  try {
+    const result = await GetProductDetails(1);
+    res.status(STATUS_CODES.OK).json(result);
+  } catch (error) {
+    res.status(STATUS_CODES.INTERNAL_ERROR).json(error);
+  }
+});
+
+export default router;

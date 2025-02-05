@@ -19,3 +19,15 @@ export const GetProductDetails = async (
     throw new NotFoundError("product not found");
   }
 };
+
+export const GetStockDetails = async (ids: number[]) => {
+  try {
+    const response = await axios.post(`${CATALOG_BASE_URL}/products/stock`, {
+      ids,
+    });
+    return response.data as Product[];
+  } catch (error) {
+    logger.error(error);
+    throw new NotFoundError("error on getting stock details");
+  }
+};

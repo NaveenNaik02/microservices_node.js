@@ -2,6 +2,8 @@ import { eq } from "drizzle-orm";
 import { DB } from "../db/db.connection";
 import { CartLineItem, cartLineItems, carts } from "../db/schema";
 import { ICartRepository } from "../interfaces";
+import { NotFoundError } from "../utils/error";
+import { CartWithLineItems } from "../dto";
 
 export interface CreateCartInput {
   itemName: string;
@@ -65,5 +67,26 @@ export class CartRepository implements ICartRepository {
       .where(eq(cartLineItems.id, lineItemId))
       .returning();
     return cartLineItem;
+  }
+
+  async findCart(id: number): Promise<CartWithLineItems> {
+    const cartInfo = await DB.query.carts.findFirst({
+      where: (cart, { eq }) => eq(cart.customerId, id),
+      with: {
+        lineItems: true,
+      },
+    });
+
+    if (!cartInfo) {
+      throw new NotFoundError("cart not found");
+    }
+    return cartInfo;
+  }
+
+  async deleteCart(lineItemId: number) {
+    await DB.delete(cartLineItems)
+      .where(eq(cartLineItems.id, lineItemId))
+      .returning();
+    return true;
   }
 }

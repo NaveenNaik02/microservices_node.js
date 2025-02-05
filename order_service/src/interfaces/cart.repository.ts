@@ -1,4 +1,5 @@
 import { CartLineItem } from "../db/schema";
+import { CartWithLineItems } from "../dto";
 
 export interface ICartRepository {
   createCart(
@@ -10,4 +11,6 @@ export interface ICartRepository {
     productId: number
   ): Promise<CartLineItem>;
   updateCart(lineItemId: number, qty: number): Promise<CartLineItem>;
+  findCart(customerId: number): Promise<CartWithLineItems>;
+  deleteCart(lineItemId: number): Promise<boolean>;
 }

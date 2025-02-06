@@ -1,12 +1,14 @@
+import { inject, injectable } from "inversify";
 import { CartLineItem } from "../db/schema";
-import { ICartService } from "../interfaces";
-import { CartRepository } from "../repository/cart.repository";
+import { ICartRepository, ICartService } from "../interfaces";
 import { GetProductDetails, GetStockDetails } from "../utils/broker";
 import { AuthorizeError, NotFoundError } from "../utils/error";
+import { TYPES } from "../utils/constants";
 
+@injectable()
 export class CartService implements ICartService {
-  private repo: CartRepository;
-  constructor(repo: CartRepository) {
+  private repo: ICartRepository;
+  constructor(@inject(TYPES.CART_REPOSITORY) repo: ICartRepository) {
     this.repo = repo;
   }
 

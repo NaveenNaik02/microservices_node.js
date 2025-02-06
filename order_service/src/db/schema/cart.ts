@@ -43,4 +43,8 @@ export const lineItemsRelations = relations(cartLineItems, ({ one }) => ({
 }));
 
 export type CartLineItem = InferSelectModel<typeof cartLineItems>;
+export type CartLineItemInput = Omit<
+  CartLineItem,
+  "createdAt" | "updatedAt" | "id" | "cartId"
+>;
 export type Cart = InferSelectModel<typeof carts>;

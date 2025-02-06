@@ -1,10 +1,10 @@
-import { CartLineItem } from "../db/schema";
+import { CartLineItem, CartLineItemInput } from "../db/schema";
 import { CartWithLineItems } from "../dto";
 
 export interface ICartRepository {
   createCart(
     customerId: number,
-    lineItem: CartLineItem
+    lineItem: CartLineItemInput
   ): Promise<CartLineItem | null>;
   findCartByProductId(
     customerId: number,

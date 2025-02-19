@@ -1,7 +1,7 @@
 import axios from "axios";
-import { NotFoundError } from "../error";
+import { Product } from "../../dto";
 import { logger } from "../logger";
-import { Product } from "../../dto/product.dto";
+import { NotFoundError } from "../error";
 
 const CATALOG_BASE_URL =
   process.env.CATALOG_BASE_URL || "http://localhost:8000";

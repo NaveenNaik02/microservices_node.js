@@ -89,4 +89,9 @@ export class CartRepository implements ICartRepository {
       .returning();
     return true;
   }
+
+  async clearCartData(userId: number): Promise<boolean> {
+    await DB.delete(carts).where(eq(cartLineItems.id, userId)).returning();
+    return true;
+  }
 }

@@ -1,2 +1,2 @@
 export * from "./cart.interface";
-export * from "./cart.repository";
+export * from "./order.interface";

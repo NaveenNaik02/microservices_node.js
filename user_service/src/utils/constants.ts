@@ -6,3 +6,8 @@ export const STATUS_CODES = {
   INTERNAL_ERROR: 500,
   CREATED: 201,
 };
+
+export const TYPES = {
+  USER_REPOSITORY: Symbol.for("User Repository"),
+  USER_SERVICE: Symbol.for("User Service"),
+};

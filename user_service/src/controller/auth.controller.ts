@@ -3,16 +3,18 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import {
   AuthorizeError,
+  container,
   generateToken,
   NotFoundError,
   RequestValidator,
   STATUS_CODES,
+  TYPES,
   ValidationError,
 } from "../utils";
 import { LoginUserRequest, RegisterUserRequest } from "../dto/user.dto";
-import { UserService } from "../service/user.service";
+import { IUserService } from "../interface";
 
-const userService = new UserService();
+const userService = container.get<IUserService>(TYPES.USER_SERVICE);
 const registerUserController = async (
   req: Request,
   res: Response,

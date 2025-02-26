@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { AuthenticatedRequest } from "../middleware";
 import { container, STATUS_CODES, TYPES, NotFoundError } from "../utils";
 import { IOrderService } from "../interfaces";
 import { OrderStatus } from "../types";
@@ -7,15 +6,14 @@ import { OrderStatus } from "../types";
 const orderService = container.get<IOrderService>(TYPES.ORDER_SERVICE);
 
 const createOrderController = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const user = req.user;
     if (!user) {
-      next(new NotFoundError("user not found"));
-      return;
+      throw new NotFoundError("user not found");
     }
 
     const response = await orderService.createOrder(user.id);
@@ -26,15 +24,14 @@ const createOrderController = async (
 };
 
 const getOrdersController = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const user = req.user;
     if (!user) {
-      next(new NotFoundError("user not found"));
-      return;
+      throw new NotFoundError("user not found");
     }
 
     const response = await orderService.getOrders(user.id);
@@ -45,15 +42,14 @@ const getOrdersController = async (
 };
 
 const getOrderController = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const user = req.user;
     if (!user) {
-      next(new NotFoundError("user not found"));
-      return;
+      throw new NotFoundError("user not found");
     }
 
     const response = await orderService.getOrder(user.id);
@@ -79,16 +75,16 @@ const updateOrderController = async (
 };
 
 const deleteOrderController = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const user = req.user;
     if (!user) {
-      next(new NotFoundError("user not found"));
-      return;
+      throw new NotFoundError("user not found");
     }
+
     const orderId = parseInt(req.params.id);
     const response = await orderService.deleteOrder(orderId);
     res.status(STATUS_CODES.OK).json(response);

@@ -26,6 +26,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "express": "^4.21.2",
+    "inversify": "^6.2.2",
     "jsonwebtoken": "^9.0.2",
     "pino": "^9.6.0",
     "pino-http": "^10.4.0",

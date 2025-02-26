@@ -1,9 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { AuthenticatedRequest } from "../middleware";
+import { Request, Response, NextFunction } from "express";
 import { CreateCart, UpdateCart } from "../dto";
 import {
   container,
-  logger,
   NotFoundError,
   RequestValidator,
   STATUS_CODES,
@@ -19,26 +17,28 @@ export const createCartController = async (
   next: NextFunction
 ) => {
   try {
-    const user = (req as AuthenticatedRequest).user;
-    const { errors, input } = await RequestValidator(CreateCart, req.body);
+    const user = req.user;
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
 
+    const { errors, input } = await RequestValidator(CreateCart, req.body);
     if (errors) {
       res.status(STATUS_CODES.BAD_REQUEST).json(errors);
     }
+
     const response = await service.createCart({
       ...input,
-      customerId: user!.id,
+      customerId: user.id,
     });
-
     res.status(STATUS_CODES.CREATED).json(response);
   } catch (error) {
-    logger.error(error);
     next(error);
   }
 };
 
 export const getCartController = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -56,7 +56,7 @@ export const getCartController = async (
 };
 
 export const editCartController = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -80,7 +80,7 @@ export const editCartController = async (
 };
 
 export const deleteCartController = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {

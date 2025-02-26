@@ -1,25 +1,22 @@
 import { NextFunction, Request, Response } from "express";
-import { logger, STATUS_CODES } from "../utils";
-
-export interface AuthenticatedRequest extends Request {
-  user?: {
-    id: number;
-  };
-}
+import { AuthorizeError, ValidateUser } from "../utils";
 
 export const RequestAuthorizer = async (
-  req: AuthenticatedRequest,
-  res: Response,
+  req: Request,
+  _res: Response,
   next: NextFunction
 ) => {
   try {
-    // if(!req.headers.authorization){
-    //     return res.status(STATUS_CODES.UN_AUTHORIZED).json({error:"Unauthorized due to authorization missing!"})
-    // }
-    req.user = { id: 2 };
+    if (!req.headers.authorization) {
+      throw new AuthorizeError(
+        "Unauthorized due to authorization token missing!"
+      );
+    }
+
+    const user = await ValidateUser(req.headers.authorization);
+    req.user = user;
     next();
   } catch (error) {
-    logger.error(error);
-    res.status(STATUS_CODES.UN_AUTHORIZED).json({ error });
+    next(error);
   }
 };

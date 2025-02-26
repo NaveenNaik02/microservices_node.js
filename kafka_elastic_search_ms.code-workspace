@@ -12,6 +12,9 @@
     {
       "name": "kafka_elastic_search_ms",
       "path": "."
+    },
+    {
+      "path": "user_service"
     }
   ]
 }

@@ -4,9 +4,9 @@ import { logger } from "../logger";
 
 export const HandleErrorWithLogger = (
   error: Error,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   let reportError = true;
   let status = 500;

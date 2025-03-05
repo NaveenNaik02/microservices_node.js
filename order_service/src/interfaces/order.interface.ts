@@ -1,5 +1,5 @@
 import { OrderWithLineItems } from "../dto/orderRequest.dto";
-import { OrderStatus } from "../types";
+import { MessageType, OrderStatus } from "../types";
 
 export interface IOrderRepository {
   createOrder(lineItem: OrderWithLineItems): Promise<number>;
@@ -20,4 +20,5 @@ export interface IOrderService {
   getOrder(userId: number): Promise<OrderWithLineItems | null>;
   getOrders(userId: number): Promise<OrderWithLineItems[]>;
   deleteOrder(orderId: number): Promise<boolean>;
+  handleSubScription(message: MessageType): void;
 }

@@ -4,9 +4,9 @@ import {
   IOrderRepository,
   IOrderService,
 } from "../interfaces";
-import { NotFoundError, TYPES } from "../utils";
+import { logger, NotFoundError, TYPES } from "../utils";
 import { OrderLineItemType, OrderWithLineItems } from "../dto";
-import { OrderStatus } from "../types";
+import { MessageType, OrderStatus } from "../types";
 
 @injectable()
 export class OrderService implements IOrderService {
@@ -85,5 +85,9 @@ export class OrderService implements IOrderService {
 
   async deleteOrder(orderId: any): Promise<boolean> {
     return await this.orderRepository.deleteOrder(orderId);
+  }
+
+  handleSubScription(message: MessageType): void {
+    logger.info("Message received by order Kafka consumer", message);
   }
 }

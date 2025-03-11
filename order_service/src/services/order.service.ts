@@ -1,23 +1,28 @@
 import { inject, injectable } from "inversify";
 import {
+  IBrokerService,
   ICartRepository,
   IOrderRepository,
   IOrderService,
 } from "../interfaces";
-import { logger, NotFoundError, TYPES } from "../utils";
+import { NotFoundError, TYPES } from "../utils";
 import { OrderLineItemType, OrderWithLineItems } from "../dto";
-import { MessageType, OrderStatus } from "../types";
+import { OrderStatus } from "../types";
 
 @injectable()
 export class OrderService implements IOrderService {
   private cartRepository: ICartRepository;
   private orderRepository: IOrderRepository;
+  private brokerService: IBrokerService;
+
   constructor(
     @inject(TYPES.CART_REPOSITORY) cartRepository: ICartRepository,
-    @inject(TYPES.ORDER_REPOSITORY) orderRepository: IOrderRepository
+    @inject(TYPES.ORDER_REPOSITORY) orderRepository: IOrderRepository,
+    @inject(TYPES.BROKER_SERVICE) brokerService: IBrokerService
   ) {
     this.cartRepository = cartRepository;
     this.orderRepository = orderRepository;
+    this.brokerService = brokerService;
   }
 
   async createOrder(
@@ -55,6 +60,7 @@ export class OrderService implements IOrderService {
 
     await this.orderRepository.createOrder(orderInput);
     await this.cartRepository.clearCartData(userId);
+    await this.brokerService.sendCreateOrderMessage(orderInput);
 
     return { message: "Order created successfully", orderNumber: orderNumber };
   }
@@ -85,9 +91,5 @@ export class OrderService implements IOrderService {
 
   async deleteOrder(orderId: any): Promise<boolean> {
     return await this.orderRepository.deleteOrder(orderId);
-  }
-
-  handleSubScription(message: MessageType): void {
-    logger.info("Message received by order Kafka consumer", message);
   }
 }

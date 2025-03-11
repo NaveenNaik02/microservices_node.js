@@ -20,5 +20,4 @@ export interface IOrderService {
   getOrder(userId: number): Promise<OrderWithLineItems | null>;
   getOrders(userId: number): Promise<OrderWithLineItems[]>;
   deleteOrder(orderId: number): Promise<boolean>;
-  handleSubScription(message: MessageType): void;
 }

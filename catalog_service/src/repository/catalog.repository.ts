@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ICatalogRepository } from "../interface/catalogRepository.interface";
+import { ICatalogRepository } from "../interface/catalog.interface";
 import { Product } from "../models/product.model";
 import { NotFoundError } from "../utils/error";
 

@@ -18,6 +18,7 @@
     "class-validator": "^0.14.1",
     "express": "^4.21.2",
     "inversify": "^6.2.1",
+    "kafkajs": "^2.2.4",
     "pino": "^9.6.0",
     "pino-http": "^10.3.0",
     "pino-pretty": "^13.0.0",

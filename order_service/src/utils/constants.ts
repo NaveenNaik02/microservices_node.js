@@ -5,4 +5,5 @@ export const TYPES = {
   ORDER_SERVICE: Symbol.for("Order Service"),
   MESSAGE_BROKER: Symbol.for("Message Broker"),
   BROKER_SERVICE: Symbol.for("Broker Service"),
+  EVENT_SERVICE: Symbol.for("Event Service"),
 };

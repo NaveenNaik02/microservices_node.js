@@ -1,2 +1,2 @@
-export * from "./catalogRepository.interface";
-export * from "./catalogService.interface";
+export * from "./catalog.interface";
+export * from "./broker.interface";

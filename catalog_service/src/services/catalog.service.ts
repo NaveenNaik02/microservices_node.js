@@ -1,9 +1,13 @@
 import { inject, injectable } from "inversify";
-import { ICatalogRepository } from "../interface/catalogRepository.interface";
-import { TYPES } from "../utils";
+import {
+  ICatalogRepository,
+  ICatalogService,
+} from "../interface/catalog.interface";
+import { logger, TYPES } from "../utils";
+import { OrderWithLineItems } from "../types/message.type";
 
 @injectable()
-export class CatalogService {
+export class CatalogService implements ICatalogService {
   private _repository: ICatalogRepository;
 
   constructor(@inject(TYPES.ProductRepository) repository: ICatalogRepository) {
@@ -47,5 +51,20 @@ export class CatalogService {
       throw new Error("unable to find product stocks details");
     }
     return products;
+  }
+
+  async handleBrokerMessage(message: any) {
+    logger.info("catalog service received the message", message);
+    const { orderItems = [] } = message.data as OrderWithLineItems;
+    orderItems.forEach(async (item) => {
+      const product = await this.getProduct(item.productId);
+      if (!product) {
+        logger.error("product not found during stock update for create order");
+        return;
+      }
+
+      const updateStock = product.stock - item.qty;
+      await this.updateProduct({ ...product, stock: updateStock });
+    });
   }
 }

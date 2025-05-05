@@ -6,7 +6,7 @@ import {
   IOrderService,
 } from "../interfaces";
 import { NotFoundError, TYPES } from "../utils";
-import { OrderLineItemType, OrderWithLineItems } from "../dto";
+import { InProcessOrder, OrderLineItemType, OrderWithLineItems } from "../dto";
 import { OrderStatus } from "../types";
 
 @injectable()
@@ -91,5 +91,25 @@ export class OrderService implements IOrderService {
 
   async deleteOrder(orderId: any): Promise<boolean> {
     return await this.orderRepository.deleteOrder(orderId);
+  }
+
+  async findOrder(orderId: number): Promise<InProcessOrder> {
+    const order = await this.orderRepository.findOrder(orderId);
+
+    if (!order) {
+      throw new NotFoundError("order not found");
+    }
+
+    const checkoutOrder: InProcessOrder = {
+      id: order.id,
+      orderNumber: order.orderNumber,
+      status: order.status,
+      customerId: order.customerId,
+      amount: Number(order.amount),
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+    };
+
+    return checkoutOrder;
   }
 }

@@ -93,10 +93,17 @@ const deleteOrderController = async (
   }
 };
 
+const checkoutOrder = async (req: Request, res: Response) => {
+  const orderId = parseInt(req.params.id);
+  const response = await orderService.findOrder(orderId);
+  res.status(STATUS_CODES.OK).json(response);
+};
+
 export {
   createOrderController,
   getOrdersController,
   getOrderController,
   updateOrderController,
   deleteOrderController,
+  checkoutOrder,
 };

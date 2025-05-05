@@ -1,0 +1,38 @@
+{
+  "name": "payment_service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc -p ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "inversify": "^6.2.1",
+    "kafkajs": "^2.2.4",
+    "pino": "^9.6.0",
+    "pino-http": "^10.3.0",
+    "pino-pretty": "^13.0.0",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "@types/rosie": "^0.0.45",
+    "nodemon": "^3.1.9",
+    "rosie": "^2.1.1",
+    "supertest": "^7.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}

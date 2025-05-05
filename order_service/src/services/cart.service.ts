@@ -24,7 +24,10 @@ export class CartService implements ICartService {
     }
 
     // if product is already in the cart
-    const lineItem = await this.repo.findCartByProductId(2, product.id);
+    const lineItem = await this.repo.findCartByProductId(
+      input.customerId,
+      product.id
+    );
     if (lineItem?.qty + input.qty > product.stock) {
       throw new NotFoundError("product is out of stock");
     }

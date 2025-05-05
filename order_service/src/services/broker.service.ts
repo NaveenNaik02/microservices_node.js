@@ -37,6 +37,7 @@ export class BrokerService implements IBrokerService {
       this.eventService.handleSubScription,
       "OrderEvents"
     );
+    logger.info("Subscribed to OrderEvents topic.");
   }
 
   async sendCreateOrderMessage(data: any): Promise<void> {

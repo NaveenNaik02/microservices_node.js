@@ -11,7 +11,7 @@ import {
 
 const CLIENT_ID = process.env.CLIENT_ID || "catalog-service";
 const GROUP_ID = process.env.GROUP_ID || "catalog-service-group";
-const BROKERS = [process.env.BROKER_1 || "localhost:8000"];
+const BROKERS = [process.env.BROKER_1 || "localhost:9092"];
 
 export class MessageBroker implements IMessageBroker {
   private kafka: Kafka;
@@ -113,7 +113,7 @@ export class MessageBroker implements IMessageBroker {
 
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
-        if (topic !== "OrderEvents") {
+        if (!["CatalogEvents"].includes(topic)) {
           return;
         }
 

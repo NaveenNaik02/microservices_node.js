@@ -1,4 +1,4 @@
-import { OrderWithLineItems } from "../dto/orderRequest.dto";
+import { InProcessOrder, OrderWithLineItems } from "../dto/orderRequest.dto";
 import { MessageType, OrderStatus } from "../types";
 
 export interface IOrderRepository {
@@ -20,4 +20,5 @@ export interface IOrderService {
   getOrder(userId: number): Promise<OrderWithLineItems | null>;
   getOrders(userId: number): Promise<OrderWithLineItems[]>;
   deleteOrder(orderId: number): Promise<boolean>;
+  findOrder(orderId: number): Promise<InProcessOrder>;
 }

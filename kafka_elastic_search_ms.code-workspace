@@ -15,6 +15,12 @@
     },
     {
       "path": "user_service"
+    },
+    {
+      "path": "broker"
+    },
+    {
+      "path": "payment_service"
     }
   ]
 }

@@ -1,10 +1,25 @@
 import express from "express";
 import catalogRouter from "./api/catalog.routes";
-import { HandleErrorWithLogger, httpLogger, STATUS_CODES } from "./utils";
+import {
+  container,
+  HandleErrorWithLogger,
+  httpLogger,
+  logger,
+  STATUS_CODES,
+  TYPES,
+} from "./utils";
+import { IBrokerService } from "./interface";
+
+const brokerService = container.get<IBrokerService>(TYPES.BrokerService);
 
 const app = express();
 app.use(express.json());
 app.use(httpLogger);
+
+brokerService
+  .initializeBroker()
+  .then(() => logger.info("Broker service initialized"))
+  .catch((err) => logger.error("Broker initialization failed", err));
 
 app.use("/", catalogRouter);
 

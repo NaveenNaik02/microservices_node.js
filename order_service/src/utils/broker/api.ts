@@ -50,7 +50,7 @@ export const ValidateUser = async (token: string) => {
       },
     });
 
-    if (response.data !== 200) {
+    if (response.status !== 200) {
       throw new AuthorizeError("user not authorized");
     }
     return response.data as User;

@@ -91,7 +91,16 @@ export class CartRepository implements ICartRepository {
   }
 
   async clearCartData(userId: number): Promise<boolean> {
-    await DB.delete(carts).where(eq(cartLineItems.id, userId)).returning();
+    const cart = await DB.query.carts.findFirst({
+      where: eq(carts.customerId, userId),
+    });
+
+    if (!cart) {
+      throw new NotFoundError("cart not found");
+    }
+    await DB.delete(cartLineItems).where(eq(cartLineItems.cartId, cart.id));
+
+    // await DB.delete(carts).where(eq(cartLineItems.id, userId)).returning();
     return true;
   }
 }

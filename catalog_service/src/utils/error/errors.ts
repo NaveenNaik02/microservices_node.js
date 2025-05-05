@@ -43,6 +43,6 @@ export class AuthorizeError extends BaseError {
 // 404 Not Found
 export class NotFoundError extends BaseError {
   constructor(description = "not found") {
-    super(description, STATUS_CODES.UN_AUTHORIZED, description);
+    super(description, STATUS_CODES.NOT_FOUND, description);
   }
 }

@@ -5,7 +5,7 @@ import { MessageType, OrderEvent, TOPIC_TYPE } from "../../types";
 
 const CLIENT_ID = process.env.CLIENT_ID || "order-service";
 const GROUP_ID = process.env.GROUP_ID || "order-service-group";
-const BROKERS = [process.env.BROKER_1 || "localhost:8001"];
+const BROKERS = [process.env.BROKER_1 || "localhost:9092"];
 
 export class MessageBroker implements IMessageBroker {
   private kafka: Kafka;

@@ -10,8 +10,11 @@ import {
 
 const router = Router();
 
-router.post("/orders", RequestAuthorizer, createOrderController);
-router.get("/orders", RequestAuthorizer, getOrdersController);
-router.get("/orders/:id", RequestAuthorizer, getOrderController);
-router.patch("/orders/:id", RequestAuthorizer, updateOrderController);
-router.delete("/orders/:id", RequestAuthorizer, deleteOrderController);
+router.post("/", RequestAuthorizer, createOrderController);
+router.get("/", RequestAuthorizer, getOrdersController);
+router.get("/:id", RequestAuthorizer, getOrderController);
+router.patch("/:id", RequestAuthorizer, updateOrderController);
+router.delete("/:id", RequestAuthorizer, deleteOrderController);
+router.get("/:id/checkout");
+
+export default router;

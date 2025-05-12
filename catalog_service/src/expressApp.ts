@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import catalogRouter from "./api/catalog.routes";
 import {
   container,
@@ -13,6 +14,11 @@ import { IBrokerService } from "./interface";
 const brokerService = container.get<IBrokerService>(TYPES.BrokerService);
 
 const app = express();
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 app.use(httpLogger);
 
